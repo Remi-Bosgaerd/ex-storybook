@@ -1,0 +1,213 @@
+<template>
+    <div class="turtleContainer" :style="style">
+        <div class="wholeTurtle">
+            <div class="leftPart">
+                <div class="shell">
+                    <div class="upperShell"/>
+                    <div class="lowerShell"/>
+                </div>
+                <div class="bottom">
+                    <div class="skin leg short"/>
+                    <div class="skin leg long"/>
+                    <div class="skin leg long"/>
+                    <div class="skin leg short"/>
+                </div>
+            </div>
+            <div class="head">
+                <div class="skin neck"/>
+                <div class="skin face">
+                    <div class="eye"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+export default {
+    name: "Turtle",
+    props: {
+        width: {
+            type: Number,
+            required: true,
+            validator: function (value) {
+                return value > 0 && value <= 100;
+            },
+        },
+        height: {
+            type: Number,
+            required: true,
+            validator: function (value) {
+                return value > 0 && value <= 100;
+            },
+        },
+    },
+    data: () => {
+        return {
+            style: {},
+        }
+    },
+    mounted() {
+        this.style = {
+            width: `${this.width}vw`,
+            height: `${this.height}vh`,
+        }
+    }
+}
+</script>
+
+<style scoped lang="scss">
+
+$upperShellColor: #6DAA3E;
+$lowerShellColor: #456D26;
+$skinColor: wheat;
+
+@keyframes walk {
+    0% {
+        transform-origin: top center;
+        transform: rotate(-45deg);
+    }
+    25% {
+        transform-origin: top center;
+        transform: rotate(45deg);
+    }
+    50% {
+        transform-origin: top center;
+        transform: rotate(45deg);
+    }
+    75% {
+        transform-origin: top center;
+        transform: rotate(-45deg);
+    }
+    100% {
+        transform-origin: top center;
+        transform: rotate(-45deg);
+    }
+}
+
+.turtleContainer {
+    .wholeTurtle {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        position: relative;
+
+        .skin {
+            background-color: $skinColor;
+        }
+
+        .leftPart {
+            width: 80%;
+            height: 100%;
+            position: relative;
+
+            .shell {
+                top: 0;
+                width: 100%;
+                height: 75%;
+                z-index: 2;
+                position: absolute;
+
+                .upperShell {
+                    background-color: $upperShellColor;
+                    height: 85%;
+                    border-top-left-radius: 50% 100%;
+                    border-top-right-radius: 50% 100%;
+                }
+
+                .lowerShell {
+                    height: 15%;
+                    background-color: $lowerShellColor;
+                }
+            }
+
+            .bottom {
+                position: absolute;
+                height: 25%;
+                width: 100%;
+                bottom: 0;
+
+                .leg {
+                    width: 10%;
+                    height: 200%;
+                    border-radius: 0 0 4px 7px;
+                    z-index: 1;
+                    margin-top: -7.5%;
+
+                    &:nth-child(1) {
+                        float: left;
+                        margin-left: 5%;
+                        animation: walk 3s infinite;
+                        animation-delay: 1s;
+                    }
+
+                    &:nth-child(2) {
+                        float: left;
+                        margin-left: 5%;
+                        animation: walk 3s infinite;
+                    }
+
+                    &:nth-child(3) {
+                        float: right;
+                        margin-right: 5%;
+                        animation: walk 3s infinite;
+                        animation-delay: 1s;
+                    }
+
+                    &:nth-child(4) {
+                        float: right;
+                        margin-right: 5%;
+                        animation: walk 3s infinite;
+                    }
+
+                    &.long {
+                        height: 150%;
+                    }
+
+                    &.short {
+                        height: 100%;
+                    }
+                }
+            }
+        }
+
+        .head {
+            width: 20%;
+            height: 60%;
+            position: absolute;
+            right: 0;
+            bottom: 25%;
+
+            .neck {
+                width: 100%;
+                height: 50%;
+                position: absolute;
+                bottom: 0;
+                left: -25%;
+                z-index: 1;
+                border-bottom-right-radius: 75% 100%;
+            }
+
+            .face {
+                height: 40%;
+                width: 90%;
+                position: absolute;
+                bottom: 50%;
+                left: -15%;
+                border-top-right-radius: 5000px;
+                border-top-left-radius: 5000px;
+
+                .eye {
+                    position: absolute;
+                    height: 30%;
+                    width: 10%;
+                    right: 30%;
+                    top: 50%;
+                    border-radius: 50%;
+                    background-color: black;
+                }
+            }
+        }
+    }
+}
+</style>
